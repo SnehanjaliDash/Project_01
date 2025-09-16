@@ -1,0 +1,24 @@
+version: '3'
+services:
+  neo4j:
+    image: neo4j:4.4
+    environment:
+      NEO4J_AUTH: neo4j/password
+    ports:
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - neo4j
+    environment:
+      FLASK_ENV: development
+    volumes:
+      - .:/app
+
+volumes:
+  neo4j_data:
